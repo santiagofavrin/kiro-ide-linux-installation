@@ -504,7 +504,7 @@ Name[ja]=新しい空のウィンドウ
 Name[ko]=새 빈 창
 Name[ru]=Новое пустое окно
 Name[zh_CN]=新建空窗口
-Name[zh_TW]=開新空視窗
+Name[zh_TW]=開新空白視窗
 Exec=$INSTALL_DIR/bin/kiro --new-window %F
 Icon=$ICON_PATH
 "
@@ -512,17 +512,16 @@ Icon=$ICON_PATH
     # Write desktop file
     if [ "$NEED_SUDO" = true ]; then
         echo "$DESKTOP_FILE_CONTENT" | sudo tee "$DESKTOP_DIR/kiro.desktop" > /dev/null
-        sudo chmod +x "$DESKTOP_DIR/kiro.desktop"
+        sudo chmod 644 "$DESKTOP_DIR/kiro.desktop"
     else
         echo "$DESKTOP_FILE_CONTENT" > "$DESKTOP_DIR/kiro.desktop"
-        chmod +x "$DESKTOP_DIR/kiro.desktop"
+        chmod 644 "$DESKTOP_DIR/kiro.desktop"
     fi
 
     # Create URL handler desktop file content
     local URL_HANDLER_CONTENT="[Desktop Entry]
 Name=Kiro - URL Handler
 Comment=Kiro Authentication Handler
-GenericName=Text Editor
 Exec=$INSTALL_DIR/bin/kiro --open-url %U
 Icon=$ICON_PATH
 Type=Application
@@ -534,10 +533,10 @@ MimeType=x-scheme-handler/kiro;
     # Write URL handler desktop file
     if [ "$NEED_SUDO" = true ]; then
         echo "$URL_HANDLER_CONTENT" | sudo tee "$DESKTOP_DIR/kiro-url-handler.desktop" > /dev/null
-        sudo chmod +x "$DESKTOP_DIR/kiro-url-handler.desktop"
+        sudo chmod 644 "$DESKTOP_DIR/kiro-url-handler.desktop"
     else
         echo "$URL_HANDLER_CONTENT" > "$DESKTOP_DIR/kiro-url-handler.desktop"
-        chmod +x "$DESKTOP_DIR/kiro-url-handler.desktop"
+        chmod 644 "$DESKTOP_DIR/kiro-url-handler.desktop"
     fi
     
     # Update desktop database if command exists
@@ -546,6 +545,15 @@ MimeType=x-scheme-handler/kiro;
             sudo update-desktop-database "$DESKTOP_DIR"
         else
             update-desktop-database "$DESKTOP_DIR"
+        fi
+    fi
+    
+    # Register MIME type handler
+    if command -v xdg-mime &> /dev/null; then
+        if [ "$NEED_SUDO" = true ]; then
+            sudo xdg-mime default kiro-url-handler.desktop x-scheme-handler/kiro
+        else
+            xdg-mime default kiro-url-handler.desktop x-scheme-handler/kiro
         fi
     fi
     
