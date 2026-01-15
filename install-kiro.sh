@@ -662,6 +662,7 @@ uninstall_kiro() {
         
         # Common locations for user configuration data
         local USER_CONFIG_DIRS=(
+            "$HOME/.config/Kiro"
             "$HOME/.config/kiro"
             "$HOME/.kiro"
             "$HOME/.local/state/kiro"
