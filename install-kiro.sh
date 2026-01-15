@@ -506,14 +506,8 @@ Exec=$INSTALL_DIR/bin/kiro --new-window %F
 Icon=$ICON_PATH
 "
 
-    # Write desktop file
-    if [ "$NEED_SUDO" = true ]; then
-        echo "$DESKTOP_FILE_CONTENT" | sudo tee "$DESKTOP_DIR/kiro.desktop" > /dev/null
-        sudo chmod 644 "$DESKTOP_DIR/kiro.desktop"
-    else
-        echo "$DESKTOP_FILE_CONTENT" > "$DESKTOP_DIR/kiro.desktop"
-        chmod 644 "$DESKTOP_DIR/kiro.desktop"
-    fi
+    echo "$DESKTOP_FILE_CONTENT" > "$DESKTOP_DIR/kiro.desktop"
+    chmod 644 "$DESKTOP_DIR/kiro.desktop"
 
     # Create URL handler desktop file content
     local URL_HANDLER_CONTENT="[Desktop Entry]
@@ -527,14 +521,8 @@ StartupNotify=true
 MimeType=x-scheme-handler/kiro;
 "
 
-    # Write URL handler desktop file
-    if [ "$NEED_SUDO" = true ]; then
-        echo "$URL_HANDLER_CONTENT" | sudo tee "$DESKTOP_DIR/kiro-url-handler.desktop" > /dev/null
-        sudo chmod 644 "$DESKTOP_DIR/kiro-url-handler.desktop"
-    else
-        echo "$URL_HANDLER_CONTENT" > "$DESKTOP_DIR/kiro-url-handler.desktop"
-        chmod 644 "$DESKTOP_DIR/kiro-url-handler.desktop"
-    fi
+    echo "$URL_HANDLER_CONTENT" > "$DESKTOP_DIR/kiro-url-handler.desktop"
+    chmod 644 "$DESKTOP_DIR/kiro-url-handler.desktop"
     
     # Update desktop database if command exists
     if command -v update-desktop-database &> /dev/null; then
@@ -547,11 +535,7 @@ MimeType=x-scheme-handler/kiro;
     
     # Register MIME type handler
     if command -v xdg-mime &> /dev/null; then
-        if [ "$NEED_SUDO" = true ]; then
-            sudo xdg-mime default kiro-url-handler.desktop x-scheme-handler/kiro
-        else
-            xdg-mime default kiro-url-handler.desktop x-scheme-handler/kiro
-        fi
+        xdg-mime default kiro-url-handler.desktop x-scheme-handler/kiro
     fi
     
     # Show completion message
