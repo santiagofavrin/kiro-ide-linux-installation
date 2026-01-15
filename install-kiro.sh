@@ -220,6 +220,8 @@ download_kiro_package() {
         echo -e "${RED}Error: Failed to download Kiro package${NC}"
         return 1
     fi
+
+    echo -e "${YELLOW}Contents after extracting: $(ls -lah ${TEMP_DIR}/extracted)${NC}"
     
     # Extract to temporary location
     echo -e "${YELLOW}Extracting Kiro package...${NC}"
