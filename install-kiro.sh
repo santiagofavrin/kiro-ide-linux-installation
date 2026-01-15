@@ -221,8 +221,6 @@ download_kiro_package() {
         return 1
     fi
 
-    echo -e "${YELLOW}Contents after extracting: $(ls -lah ${TEMP_DIR}/extracted)${NC}"
-    
     # Extract to temporary location
     echo -e "${YELLOW}Extracting Kiro package...${NC}"
     mkdir -p "$TEMP_DIR/extracted"
@@ -231,8 +229,7 @@ download_kiro_package() {
         return 1
     fi
     
-    # Find the extracted directory name (should be something like 202507152342-distro-linux-x64)
-    local EXTRACTED_DIR=$(find "$TEMP_DIR/extracted" -mindepth 1 -maxdepth 1 -type d | head -n 1)
+    local EXTRACTED_DIR="${TEMP_DIR}/extracted"
     
     # Check if the expected structure exists
     if [ -d "$EXTRACTED_DIR/Kiro" ]; then
