@@ -234,8 +234,6 @@ download_kiro_package() {
     # Check if the expected structure exists
     if [ -d "$EXTRACTED_DIR/Kiro" ]; then
         echo -e "${GREEN}Found Kiro directory in extracted package.${NC}"
-        # Move the Kiro directory up to our expected location
-        mv "$EXTRACTED_DIR/Kiro" "$TEMP_DIR/extracted/Kiro"
         # Remove the now-empty parent directory
         rmdir "$EXTRACTED_DIR" 2>/dev/null || true
     else
