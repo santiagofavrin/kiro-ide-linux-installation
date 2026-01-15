@@ -366,14 +366,13 @@ install_kiro() {
     local CONFIG_BACKUP_DIR=""
     local INSTALL_DIR
     local SYMLINK_DIR
-    local DESKTOP_DIR
+    local DESKTOP_DIR="$HOME/.local/share/applications"
     local NEED_SUDO=true
     
     # Determine installation directories based on user flag
     if [ "$1" == "--user" ]; then
         INSTALL_DIR="$USER_INSTALL_DIR"
         SYMLINK_DIR="$HOME/.local/bin"
-        DESKTOP_DIR="$HOME/.local/share/applications"
         NEED_SUDO=false
         APP_EXEC="$USER_INSTALL_DIR/bin/kiro"
         APP_ICON="$USER_INSTALL_DIR/resources/app/resources/linux/kiro.png"
@@ -384,7 +383,6 @@ install_kiro() {
     else
         INSTALL_DIR="$DEFAULT_INSTALL_DIR"
         SYMLINK_DIR="/usr/local/bin"
-        DESKTOP_DIR="/usr/share/applications"
     fi
     
     # Check if this is an update
